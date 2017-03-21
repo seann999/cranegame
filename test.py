@@ -11,7 +11,7 @@ rand = False
 game_processes = []
 
 # port render_freq msg_freq server
-game_processes.append(subprocess.Popen("./test.x86_64 5000 50 10 1", shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
+game_processes.append(subprocess.Popen("./test.x86_64 5000 50 10 1 abc", shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
 
 time.sleep(7)
 
