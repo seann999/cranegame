@@ -5,3 +5,5 @@ setup:
 for manual play:
 $> ./test.x86_64 5000 1 0 0
 
+controls for manual play:
+WASD to move, space to grab
