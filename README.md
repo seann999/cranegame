@@ -3,8 +3,8 @@
 2. replace lis/gym_client/gym/envs/unity folder with unity folder included here
 
 # for manual play:
-```
 ./test.x86_64 <port> <render_every> <msg_server_every> <use_server> <object_spawn>
+```
 $> ./test.x86_64 5000 10 0 0 abbbc
 ```
 
@@ -29,6 +29,7 @@ g = ボール（サッカー）
 h = アンドロイドマスコット
 
 ## example:
-```aaggdh
--> サイコロ２個、サッカーボール２個、マグカップ１個、アンドロイド１個
 ```
+aaggdh
+```
+-> サイコロ２個、サッカーボール２個、マグカップ１個、アンドロイド１個
