@@ -5,7 +5,7 @@
 # for manual play:
 ./test.x86_64 <port> <render_every> <msg_server_every> <use_server> <object_spawn>
 ```
-$> ./test.x86_64 5000 10 0 0 abbbc
+./test.x86_64 5000 10 0 0 abbbc
 ```
 
 # controls for manual play:
