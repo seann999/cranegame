@@ -1,3 +1,5 @@
+# Crane Game (Claw Machine) Simulator
+For a machine learning project
 
 ![alt text](images/image1.png)
 
