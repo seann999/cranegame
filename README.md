@@ -1,5 +1,6 @@
 # Crane Game (Claw Machine) Simulator
-For a machine learning project
+For a machine learning project.
+For Ubuntu.
 
 ![alt text](images/image1.png)
 
