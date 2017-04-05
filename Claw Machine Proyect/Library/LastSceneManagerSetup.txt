@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Standard Assets/Escenas/Prototipo.unity
+  isLoaded: 1
+  isActive: 1
