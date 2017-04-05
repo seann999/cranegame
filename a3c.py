@@ -20,92 +20,43 @@ class A3C_Network():
         with tf.variable_scope(name):
 
             self.inputs = tf.placeholder(shape=[None, 227, 227, 3], dtype=tf.float32, name="images")
-            resized_inputs = tf.image.resize_bilinear(self.inputs, (84, 84))
-            self.resized_inputs_ph = tf.placeholder_with_default(resized_inputs, [None, 84, 84, 3], name="resized_images")
+            self.resized_inputs = tf.image.resize_bilinear(self.inputs, (84, 84))
+            self.resized_inputs_ph = tf.placeholder_with_default(self.resized_inputs, [None, 84, 84, 3], name="resized_images")
             self.train_phase = tf.placeholder_with_default(True, [], name="train")
-
-            """
-            hidden = slim.fully_connected(slim.flatten(self.resized_inputs_ph), 128, activation_fn=tf.nn.elu)
-            hidden = slim.fully_connected(hidden, 4, activation_fn=tf.nn.elu)
-            self.loc_pred = slim.fully_connected(tf.stop_gradient(hidden), 2,
-                                                 activation_fn=None,
-                                                 biases_initializer=tf.constant_initializer(0))
-            rec_hidden = layers.fully_connected(hidden, 128, activation_fn=tf.nn.elu)
-            rec_hidden = layers.fully_connected(rec_hidden, 84*84*3, activation_fn=tf.nn.sigmoid)
-            self.rec = tf.reshape(rec_hidden, [-1, 84, 84, 3])
-            """
-            d = 4
 
             conv = slim.conv2d(activation_fn=tf.nn.elu,
                                      inputs=self.resized_inputs_ph, num_outputs=16,
                                      kernel_size=[8, 8], stride=[4, 4], padding='VALID')
 
-            for _ in range(2):
-                conv = slim.conv2d(activation_fn=tf.nn.elu,
-                                    inputs=conv, num_outputs=32,
-                                    kernel_size=[4, 4], stride=[2, 2], padding='VALID')
+            conv = slim.conv2d(activation_fn=tf.nn.elu,
+                                inputs=conv, num_outputs=32,
+                                kernel_size=[4, 4], stride=[2, 2], padding='VALID')
 
-            hidden = slim.fully_connected(slim.flatten(conv), 256, activation_fn=tf.nn.elu)
-            #hidden = slim.fully_connected(hidden, 8, activation_fn=tf.nn.elu)
-            """hidden = tf.contrib.layers.batch_norm(hidden,
-                                              updates_collections=None,
-                                              scale=False, center=False,
-                                              is_training=self.train_phase,
-                                              scope="bn")"""
+            self.hidden = slim.fully_connected(slim.flatten(conv), 256, activation_fn=tf.nn.elu)
 
-            mean_hidden = slim.fully_connected(hidden, 8, activation_fn=None)
-            var_hidden = slim.fully_connected(hidden, 8, activation_fn=None)
-            epsilon = tf.random_normal(tf.shape(var_hidden), name='epsilon')
-            std_encoder = tf.exp(0.5 * var_hidden)
-            #hidden = mean_hidden# + tf.multiply(std_encoder, epsilon)
-
-
-            #hidden = layers.layer_norm(hidden)
-            #hidden = hidden + tf.random_normal(tf.shape(hidden))
-
-            self.loc_pred = slim.fully_connected(tf.stop_gradient(hidden), 2,
-                                               activation_fn=None,
-                                                  biases_initializer=tf.constant_initializer(0))
-            #self.loc_pred = slim.fully_connected(self.loc_pred, 2,
-            #                                     activation_fn=None,
-            #                                     biases_initializer=tf.constant_initializer(0))
-
-            rec_hidden = slim.fully_connected(hidden, 512 / d, activation_fn=tf.nn.elu)
-            rec_hidden = slim.fully_connected(rec_hidden, 7*7*64 / d, activation_fn=tf.nn.elu)
-            rec_hidden = tf.reshape(rec_hidden, [-1, 7, 7, 64 / d])
-            rec_hidden = slim.conv2d_transpose(rec_hidden, 64 / d, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.elu)
-            rec_hidden = slim.conv2d_transpose(rec_hidden, 32 / d, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.elu)
-            rec_hidden = slim.conv2d_transpose(rec_hidden, 3, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.sigmoid)
-            self.rec = tf.reshape(rec_hidden, [-1, 84, 84, 3])# + tf.get_variable("b_f", [84, 84, 3], tf.float32, initializer=tf.constant_initializer(0))
-
-            KLD = -0.5 * tf.reduce_sum(1 + var_hidden - tf.pow(mean_hidden, 2) - tf.exp(var_hidden),
-                                       reduction_indices=1)
-            beta = 1.0
-            L = tf.reduce_sum(tf.pow(self.rec - resized_inputs, 2.0), axis=(1,2,3))
-            self.rec_loss = tf.reduce_mean(L + beta * KLD)
-
-            #hidden = tf.stop_gradient(hidden)
-            #hidden = slim.fully_connected(hidden, 256, activation_fn=tf.nn.elu)
-
-            self.policy_mean = slim.fully_connected(hidden, action_size,
+            self.policy_mean = slim.fully_connected(self.hidden, action_size,
                                                     activation_fn=None,
                                                     biases_initializer=tf.constant_initializer(0))
-            self.var_z = slim.fully_connected(hidden, 1,
+
+            self.var_z = slim.fully_connected(self.hidden, 1,
                                                activation_fn=None,
                                                 biases_initializer=tf.constant_initializer(0))
             self.policy_var = tf.nn.softplus(self.var_z) + 1e-5
-            self.value = slim.fully_connected(hidden, 1,
+
+            self.value = slim.fully_connected(self.hidden, 1,
                                               activation_fn=None,
                                               biases_initializer=tf.constant_initializer(0))
 
+            self.loc_pred = slim.fully_connected(tf.stop_gradient(self.hidden), 2,
+                                           activation_fn=None,
+                                              biases_initializer=tf.constant_initializer(0))
             self.loc_truth = tf.placeholder(tf.float32, [None, 2], name="true_locations")
-            self.error_img = tf.pow(self.rec - resized_inputs, 2.0)
-            #self.rec_loss = tf.reduce_mean(tf.reduce_sum(self.error_img, axis=(1, 2, 3)))
             self.loc_loss = tf.reduce_mean(tf.reduce_sum((self.loc_pred - self.loc_truth) ** 2.0, axis=1))
-            self.sparsity_loss = tf.reduce_mean(tf.reduce_sum(tf.abs(hidden), axis=1))
+
+            self.vae_decoder()
 
             if name == master_name:
-                self.pretrain_op = tf.train.AdamOptimizer(1e-4).minimize(self.rec_loss + 0.0 * self.sparsity_loss + self.loc_loss)
+                self.pretrain_op = tf.train.AdamOptimizer(1e-4).minimize(self.rec_loss + self.loc_loss)
             else:
                 self.actions = tf.placeholder(tf.float32, [None, action_size])
                 self.value_truth = tf.placeholder(tf.float32, [None])
@@ -113,20 +64,6 @@ class A3C_Network():
                 self.advantages = tf.placeholder(tf.float32, [None])
 
                 self.value_loss = 0.5 * tf.reduce_mean(tf.square(self.value_truth - tf.reshape(self.value, [-1])))
-
-                """"#var_tiled = tf.tile(self.policy_var, [1, action_size])
-                self.entropy = 0.5 * (tf.log(2.0 * np.pi * self.policy_var) + 1.0)
-
-                a = 0.0
-
-                #self.policy_mean = tf.clip_by_value(self.policy_mean, -5, 5)
-                x_power = -0.5 * tf.square(tf.subtract(self.actions, self.policy_mean)) * tf.exp(-tf.log(var_tiled))
-                gaussian_nll = tf.reduce_sum(x_power, axis=1) \
-                              - 0.5 * (tf.reduce_sum(tf.log(var_tiled), axis=1) + action_size * tf.log(2.0 * np.pi))
-
-                #self.policy_loss = -tf.nn.tanh(tf.reduce_mean(tf.multiply(tf.reduce_sum(gaussian_ll, axis=1), self.advantages)))
-                self.policy_loss = -tf.reduce_mean(tf.multiply(gaussian_ll, self.advantages))
-                """
 
                 self.entropy = 0.5 * (tf.log(2. * np.pi * self.policy_var) + 1.)
 
@@ -139,7 +76,7 @@ class A3C_Network():
                 self.policy_loss = tf.multiply(gaussian_nll, self.advantages)
 
                 self.loss = 1.0 * (5.0 * self.value_loss + self.policy_loss - 1e-2 * self.entropy) + 0.0 * self.rec_loss\
-                            + 1.0 * self.loc_loss + 0.0 * self.sparsity_loss# + 1.0 * tf.reduce_mean(1.0 / (tf.minimum(1.0, self.policy_var) ** 4.0))
+                            + 1.0 * self.loc_loss
 
                 local_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, name)
                 gradients = tf.gradients(self.loss, local_vars)  # to apply to weights
@@ -149,78 +86,31 @@ class A3C_Network():
                 checks = [tf.check_numerics(grad, grad.name) for grad in grads]
                 with tf.control_dependencies(checks):
                     grads, self.grad_norms = tf.clip_by_global_norm(grads, 40.0)
-                    #grads = [tf.clip_by_value(grad, -1.0, 1.0) for grad in grads]
 
                 global_vars = [x for k, x in zip(keep, tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, master_name)) if k]
 
 
                 self.apply_gradients = trainer.apply_gradients(zip(grads, global_vars))
 
-    def pretrain(self, global_episodes, sess, writer):
-        files = os.listdir("dataset2/rgb")
-        iter = 0
-        cv2.namedWindow("rec", cv2.WINDOW_NORMAL)
-        self.increment = global_episodes.assign_add(1)
+    def vae_decoder(self):
+        mean_hidden = slim.fully_connected(self.hidden, 8, activation_fn=None)
+        var_hidden = slim.fully_connected(self.hidden, 8, activation_fn=None)
+        epsilon = tf.random_normal(tf.shape(var_hidden), name='epsilon')
+        hidden_z = mean_hidden + var_hidden * epsilon
 
-        while True:
-            order = np.random.permutation(np.arange(len(files)))
-            batch = []
+        rec_hidden = slim.fully_connected(hidden_z, 512, activation_fn=tf.nn.elu)
+        rec_hidden = slim.fully_connected(rec_hidden, 7*7*64, activation_fn=tf.nn.elu)
+        rec_hidden = tf.reshape(rec_hidden, [-1, 7, 7, 64])
+        rec_hidden = slim.conv2d_transpose(rec_hidden, 64, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.elu)
+        rec_hidden = slim.conv2d_transpose(rec_hidden, 32, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.elu)
+        rec_hidden = slim.conv2d_transpose(rec_hidden, 3, [6, 6], stride=2, padding='VALID', activation_fn=tf.nn.sigmoid)
+        self.rec = tf.reshape(rec_hidden, [-1, 84, 84, 3])# + tf.get_variable("b_f", [84, 84, 3], tf.float32, initializer=tf.constant_initializer(0))
 
-            for i in order:
-                img = cv2.imread(os.path.join("dataset2/rgb", files[i]))
-                if img is None:
-                    continue
-
-                img = img / 255.0
-                txt_path = os.path.join("dataset2/meta", files[i][:-4] + ".txt")
-
-                if not os.path.exists(txt_path):
-                    continue
-
-                with open(txt_path) as f:
-                    loc = f.readline().strip().split(",")
-                    loc = [float(loc[0]), float(loc[2])]
-
-                    if abs(loc[0]) > 10 or abs(loc[1]) > 10:
-                        continue
-
-                batch.append((img, loc))
-
-                if len(batch) >= 32:
-                    imgs, locs = zip(*batch)
-
-                    _, loc_loss, rec_loss, sparsity_loss, rec, loc_pred = sess.run([self.pretrain_op, self.loc_loss, self.rec_loss, self.sparsity_loss, self.rec, self.loc_pred], feed_dict={
-                        self.inputs: imgs,
-                        self.loc_truth: locs
-                    })
-
-                    episode_count = sess.run(self.increment)
-                    summary_float(episode_count, "loc loss", float(loc_loss), writer)
-                    summary_float(episode_count, "rec loss", float(rec_loss), writer)
-                    summary_float(episode_count, "sparsity loss", float(sparsity_loss), writer)
-                    print("%i: %s" % (episode_count, rec_loss))
-
-                    if episode_count % 1 == 0:
-                        map = np.zeros([16, 16, 1])
-
-                        def draw_dot(loc):
-                            loc = [int((i / 5.0 + 1.0) * 16.0 / 2.0) for i in loc]
-                            loc[1] = 16 - loc[1]
-                            loc = np.clip(loc, 0, 15)
-                            map[loc[1], loc[0]] = 1.0
-
-                        draw_dot(loc_pred[0])
-                        draw_dot(locs[0])
-                        print(loc_pred[0])
-
-                        cv2.imshow("pred map", map)
-                        cv2.imshow("orig", imgs[0])
-                        cv2.imshow("rec", rec[0])
-                        cv2.waitKey(1)
-
-
-
-                    batch = []
+        KLD = -0.5 * tf.reduce_sum(1 + var_hidden - tf.pow(mean_hidden, 2) - tf.exp(var_hidden),
+                                       reduction_indices=1)
+        beta = 1.0
+        L = tf.reduce_sum(tf.pow(self.rec - self.resized_inputs, 2.0), axis=(1,2,3))
+        self.rec_loss = tf.reduce_mean(L + beta * KLD)
 
 def sync(from_scope, to_scope):
     from_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, from_scope)
@@ -324,7 +214,7 @@ class Worker():
 
                         if self.worker_i == 0:
                             print(sigma[0], var_z, eps)
-                        action = np.random.uniform(-5, 5, 2)#np.random.normal(mu[0], sigma[0] + eps)
+                        action = np.random.normal(mu[0], sigma[0] + eps)
                         action = np.clip(action, -5, 5)
 
                         #print(action)
@@ -348,11 +238,7 @@ class Worker():
                         new_observation, misc = process_obs(new_observation)
 
                         catch += np.floor(reward)
-                        #print(np.array(misc["touch"]))
-                        #if distance < 1: # prevent box touch exploit
-                        #    reward += np.sum(np.array(misc["touch"]) * 0.1)
-                        #print(reward)
-                        #reward -= distance / 10.0
+                        reward -= distance / 10.0
                         reward = np.clip(reward, -1, 1)
 
                         episode_buffer.append((observation, action, reward, value[0, 0], [loc[0], loc[2]]))
@@ -381,7 +267,7 @@ class Worker():
                         #value_loss, policy_loss, pred_loss, sp_loss, rec_loss, rec, error_img, entropy_f, grad_norms, var_norms, adv = self.train(episode_buffer, sess,
                         #                                                                       gamma, bootstrap_value)
 
-                        value_loss, policy_loss, loc_loss, sp_loss, rec_loss, rec, error_img, entropy_f, grad_norms, var_norms, adv = self.train(
+                        value_loss, policy_loss, loc_loss, rec_loss, rec, entropy_f, grad_norms, var_norms, adv = self.train(
                             episode_buffer, sess, 0, 0)
 
                         episode_count = sess.run(self.increment)
@@ -419,7 +305,6 @@ class Worker():
                             summary_float(episode_count, "advantage", float(adv), writer)
                             summary_float(episode_count, "rec loss", float(rec_loss), writer)
                             summary_float(episode_count, "loc loss", float(loc_loss), writer)
-                            summary_float(episode_count, "sparsity loss", float(sp_loss), writer)
 
                         episode_buffer = []
 
@@ -434,7 +319,6 @@ class Worker():
         self.value_plus = np.asarray(list(values) + [bootstrap_value])
         advantages = rewards + gamma * self.value_plus[1:] - self.value_plus[:-1]
         advantages = discount(advantages, gamma)
-        #print(rewards, self.value_plus, advantages, discounted_rewards)
 
         feed_dict = {
             self.local_network.inputs: observations,
@@ -444,18 +328,16 @@ class Worker():
             self.local_network.loc_truth: loc
         }
 
-        value_loss, policy_loss, loc_loss, rec_loss, sp_loss, rec, error_img, entropy, grad_norms, var_norms, _ = sess.run([
+        value_loss, policy_loss, loc_loss, rec_loss, rec, entropy, grad_norms, var_norms, _ = sess.run([
             self.local_network.value_loss,
             self.local_network.policy_loss,
             self.local_network.loc_loss,
             self.local_network.rec_loss,
-            self.local_network.sparsity_loss,
             self.local_network.rec,
-            self.local_network.error_img,
             self.local_network.entropy,
             self.local_network.grad_norms,
             self.local_network.var_norms,
             self.local_network.apply_gradients
         ], feed_dict=feed_dict)
 
-        return value_loss, policy_loss, loc_loss, sp_loss, rec_loss, rec, error_img, entropy, grad_norms, var_norms, advantages
+        return value_loss, policy_loss, loc_loss, rec_loss, rec, entropy, grad_norms, var_norms, advantages

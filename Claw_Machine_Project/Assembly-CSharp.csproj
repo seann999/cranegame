@@ -45,9 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ClawController.cs" />
-     <Compile Include="Assets\DebugText.cs" />
-     <Compile Include="Assets\MoveClaw.cs" />
      <Compile Include="Assets\Packages\msgpack-unity\src\BoxingPacker.cs" />
      <Compile Include="Assets\Packages\msgpack-unity\src\CompiledPacker.cs" />
      <Compile Include="Assets\Packages\msgpack-unity\src\Compiler\EmitExtensions.cs" />
@@ -139,7 +136,6 @@
      <Compile Include="Assets\Packages\websocket-sharp\WebSocketException.cs" />
      <Compile Include="Assets\Packages\websocket-sharp\WebSocketFrame.cs" />
      <Compile Include="Assets\Packages\websocket-sharp\WebSocketState.cs" />
-     <Compile Include="Assets\RewardTrigger.cs" />
      <Compile Include="Assets\Scripts\AIServer.cs" />
      <Compile Include="Assets\Scripts\Action.cs" />
      <Compile Include="Assets\Scripts\Agent.cs" />
@@ -151,6 +147,9 @@
      <Compile Include="Assets\Scripts\Events\RewardTriggerEvent.cs" />
      <Compile Include="Assets\Scripts\SceneController.cs" />
      <Compile Include="Assets\Scripts\State.cs" />
+     <Compile Include="Assets\Scripts\claw\ClawController.cs" />
+     <Compile Include="Assets\Scripts\claw\MoveClaw.cs" />
+     <Compile Include="Assets\Scripts\claw\RewardTrigger.cs" />
      <Compile Include="Assets\Scripts\custom\MyAction.cs" />
      <Compile Include="Assets\Scripts\custom\MyAgent.cs" />
      <Compile Include="Assets\Scripts\custom\MyEnvironment.cs" />
