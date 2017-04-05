@@ -32,7 +32,7 @@ namespace MLPlayer
 		public static AIServer server;
 		public static bool FinishFlag = false;
 		public static bool newMessage = false;
-		public static bool useServer = true;
+		public bool useServer = true;
 
 		[SerializeField] Environment environment;
 		private static int frame = 0;

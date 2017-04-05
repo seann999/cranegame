@@ -145,9 +145,12 @@ public class ClawController : MonoBehaviour {
 				takeover = false;
 				agent.EndEpisode();
 			} else if (Input.GetKey (KeyCode.Space) || act.command == "autograb") {
+				
 				claw.target = new Vector3 (claw.transform.position.x, 0, claw.transform.position.z);
 
 				phase = 1;
+				countdown = -1;
+				frame = 0;
 				takeover = true;
 			} else {
 				Vector3 moveVec = Vector3.zero;
