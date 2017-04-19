@@ -51,7 +51,7 @@ In ``env.step()``, pass:
 * ``auto <x> <y> <z>`` automatically move claw to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence.
 * ``reset`` resets the environment: moves the claw back to the center and respawns all objects in new random locations
 
-## Possible observations
+## Observations
 * ``observation["image"]`` provides the RGB camera image of the environment
 * ``observation["extra"]`` is provides miscellaneous information
   ```
