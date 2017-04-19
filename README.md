@@ -53,7 +53,7 @@ In ``env.step()``, pass a command string:
 
 ## Observations
 * ``observation["image"]`` provides the RGB camera image of the environment
-* ``observation["extra"]`` is provides miscellaneous information
+* ``observation["extra"]`` provides miscellaneous information
   ```
   data = bytearray(observation["extra"]).decode("utf-8")
   obj = json.loads(data)
