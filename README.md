@@ -55,7 +55,7 @@ In ``env.step()``, pass:
 * ``observation["image"]`` provides the RGB camera image of the environment
 * ``observation["extra"]`` is provides miscellaneous information
   ```
-  data = bytearray(obs["extra"]).decode("utf-8")
+  data = bytearray(observation["extra"]).decode("utf-8")
   obj = json.loads(data)
   # obj is dict
   ```
