@@ -12,12 +12,14 @@ Python packages
 ## Setup
 Instructions are based on [here](https://github.com/openai/gym/wiki/Environments)
 1. Copy the ``unity`` directory in your ``gym/envs`` directory, so there will be a ``gym/envs/unity/unity_env.py``
-2. In ``gym/envs/__init__.py``, append
-```register(
+2. In ``gym/envs/__init__.py``, append:
+
+```
+register(
     id='Unity-v0',
     entry_point='gym.envs.unity:UnityEnv',
-)```
-
+)
+```
 
 ## For manual play
 From terminal
@@ -29,13 +31,15 @@ From terminal
 ```
 #### Mac
 ```
-#open -a game_mac.app --args <port> <render_every> <msg_server_every> <use_server> <object_spawn>
+# open -a game_mac.app --args <port> <render_every> <msg_server_every> <use_server> <object_spawn>
 open -a game_mac.app --args 5000 10 0 0 abbbc
 ```
 
 ## Controls for manual play
 WASD to move, space to grab
+
 Q to toggle claw
+
 Z and X to lower and raise claw
 
 ## Commands for script/AI play
