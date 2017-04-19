@@ -12,7 +12,7 @@ Python packages
 ## Setup
 Instructions are based on [here](https://github.com/openai/gym/wiki/Environments)
 1. Copy the ``unity`` directory in your ``gym/envs`` directory, so there will be a ``gym/envs/unity/unity_env.py``
-2. In ``gym/envs/__init__.py`` append
+2. In ``gym/envs/__init__.py``, append
 ```register(
     id='Unity-v0',
     entry_point='gym.envs.unity:UnityEnv',
