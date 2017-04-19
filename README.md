@@ -40,9 +40,9 @@ open -a game_mac.app --args 5000 10 0 0 abbbc
 ## Controls for manual play
 WASD to move, space to grab
 
-Q to toggle claw
+Q to toggle claw (TODO: glitchy)
 
-Z and X to lower and raise claw
+X and Z to lower and raise claw
 
 ## Commands for script/AI play
 In ``env.step()``, pass:
