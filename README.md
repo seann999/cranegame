@@ -38,6 +38,14 @@ WASD to move, space to grab
 Q to toggle claw
 Z and X to lower and raise claw
 
+## Commands for script/AI play
+In ``env.step()``, pass:
+* ``move <x> <y> <z>`` move by (x, y, z)
+* ``moveTo <x> <y> <z>`` move a fixed distance towards (x, y, z)
+* ``toggleClaw`` toggle grab/release of claw
+* ``auto <x> <y> <z>`` automatically move to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence.
+* ``reset`` resets the environment: moves the claw back to the center and respawns all objects in new random locations
+
 ## Spawn codes
 * a = die; サイコロ
 * b = dumbbell; ダンベル
