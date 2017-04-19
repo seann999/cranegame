@@ -2,12 +2,21 @@
 For a machine learning project.
 
 ## Dependencies
-* Unity
-* OpenAI Gym
+* Unity Game Engine
+
+Python packages
+* OpenAI Gym (``pip install gym`` for minimum installation)
+* websocket (``pip install websocket-client``)
+* msgpack (``pip install msgpack-python``)
 
 ## Setup
-1. install lis (known to work for [this version](https://github.com/stssg526/lis/tree/lisver2))
-2. replace lis/gym_client/gym/envs/unity folder with unity folder included here
+Instructions are based on [here](https://github.com/openai/gym/wiki/Environments)
+1. Copy the ``unity`` directory in your ``gym/envs`` directory, so there will be a ``gym/envs/unity/unity_env.py``
+2. In ``gym/envs/__init__.py`` append
+```register(
+    id='Unity-v0',
+    entry_point='gym.envs.unity:UnityEnv',
+)```
 
 ## For manual play
 From terminal
