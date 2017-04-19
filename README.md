@@ -44,11 +44,22 @@ Z and X to lower and raise claw
 
 ## Commands for script/AI play
 In ``env.step()``, pass:
-* ``move <x> <y> <z>`` move by (x, y, z)
-* ``moveTo <x> <y> <z>`` move a fixed distance towards (x, y, z)
+* ``move <x> <y> <z>`` move claw by (x, y, z)
+* ``moveTo <x> <y> <z>`` move claw a fixed distance towards (x, y, z)
 * ``toggleClaw`` toggle grab/release of claw
-* ``auto <x> <y> <z>`` automatically move to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence.
+* ``auto <x> <y> <z>`` automatically move claw to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence.
 * ``reset`` resets the environment: moves the claw back to the center and respawns all objects in new random locations
+
+## Possible observations
+* ``observation["image"]`` provides the RGB camera image of the environment
+* ``observation["extra"]`` is provides miscellaneous information
+  ```
+  data = bytearray(obs["extra"]).decode("utf-8")
+  obj = json.loads(data)
+  # obj is dict
+  ```
+  * ``obj["touch"]`` is a list of length 2, each number indicating if the corresponding sensor (the yellow tips of the claw) is touching something. For example, ``[1, 0]`` indicates that the left sensor is touching.
+  * ``obj["coordinates"]`` is a list of length N*3, where N is the number of objects. It is a concatenation of (x, y, z) coordinates of each object. Currently, there is no way to tell which 3 numbers correspond to which object (TODO).
 
 ## Spawn codes
 * a = die; サイコロ
