@@ -78,7 +78,7 @@ In ``env.step()``, pass a command string:
 aaggdh
 ```
 
-### Run quick demo
+## Run quick demo
 In ``test.py`` you may want to change ``linux=False``.
 ```
 python test.py
