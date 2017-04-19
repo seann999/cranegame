@@ -44,7 +44,7 @@ Q to toggle claw (TODO: glitchy)
 X and Z to lower and raise claw
 
 ## Commands for script/AI play
-In ``env.step()``, pass:
+In ``env.step()``, pass a command string:
 * ``move <x> <y> <z>`` move claw by (x, y, z)
 * ``moveTo <x> <y> <z>`` move claw a fixed distance towards (x, y, z)
 * ``toggleClaw`` toggle grab/release of claw
@@ -76,4 +76,10 @@ In ``env.step()``, pass:
 ```
 # サイコロ２個、サッカーボール２個、マグカップ１個、アンドロイド１個
 aaggdh
+```
+
+### Run quick demo
+In ``test.py`` you may want to change ``linux=False``.
+```
+python test.py
 ```
