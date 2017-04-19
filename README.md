@@ -18,8 +18,10 @@ Instructions are based on [here](https://github.com/openai/gym/wiki/Environments
     entry_point='gym.envs.unity:UnityEnv',
 )```
 
+
 ## For manual play
 From terminal
+
 #### Linux
 ```
 # ./game_linux.x86_64 <port> <render_every> <msg_server_every> <use_server> <object_spawn>
