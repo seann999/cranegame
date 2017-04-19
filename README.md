@@ -31,13 +31,15 @@ From terminal
 ```
 #### Mac
 ```
-#open -a game_mac.app --args <port> <render_every> <msg_server_every> <use_server> <object_spawn>
+# open -a game_mac.app --args <port> <render_every> <msg_server_every> <use_server> <object_spawn>
 open -a game_mac.app --args 5000 10 0 0 abbbc
 ```
 
 ## Controls for manual play
 WASD to move, space to grab
+
 Q to toggle claw
+
 Z and X to lower and raise claw
 
 ## Spawn codes
