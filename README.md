@@ -1,42 +1,44 @@
 # Crane Game (Claw Machine) Simulator
 For a machine learning project.
-For Ubuntu.
 
-![alt text](images/image1.png)
+## Dependencies
+* Unity
+* OpenAI Gym
 
-## setup:
+## Setup
 1. install lis (known to work for [this version](https://github.com/stssg526/lis/tree/lisver2))
 2. replace lis/gym_client/gym/envs/unity folder with unity folder included here
 
-## for manual play:
+## For manual play
+From terminal
+#### Linux
 ```
-# ./test.x86_64 <port> <render_every> <msg_server_every> <use_server> <object_spawn>
+# ./game_linux.x86_64 <port> <render_every> <msg_server_every> <use_server> <object_spawn>
 ./test.x86_64 5000 10 0 0 abbbc
 ```
+#### Mac
+```
+#open -a game_mac.app --args <port> <render_every> <msg_server_every> <use_server> <object_spawn>
+open -a game_mac.app --args 5000 10 0 0 abbbc
+```
 
-## controls for manual play:
+## Controls for manual play
 WASD to move, space to grab
+Q to toggle claw
+Z and X to lower and raise claw
 
-## spawn code:
-a = サイコロ
+## Spawn codes
+* a = die; サイコロ
+* b = dumbbell; ダンベル
+* c = ball; ボール（テニス）
+* d = mug; マグカップ
+* e = maraca; マラッカ
+* f = ball 2; ボール（バスケ）
+* g = ball 3; ボール（サッカー）
+* h = Android mascot; アンドロイドマスコット
 
-b = ダンベル
-
-c = ボール（テニス）
-
-d = マグカップ
-
-e = マラッカ
-
-f = ボール（バスケ）
-
-g = ボール（サッカー）
-
-h = アンドロイドマスコット
-
-### example:
+### Spawn code example
 ```
 # サイコロ２個、サッカーボール２個、マグカップ１個、アンドロイド１個
 aaggdh
 ```
-
