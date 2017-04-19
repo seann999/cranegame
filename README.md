@@ -43,7 +43,7 @@ Q to toggle claw (TODO: glitchy)
 
 X and Z to lower and raise claw
 
-## Commands for script/AI play
+## Actions for script/AI play
 In ``env.step()``, pass a command string:
 * ``move <x> <y> <z>`` move claw by (x, y, z)
 * ``moveTo <x> <y> <z>`` move claw a fixed distance towards (x, y, z)
