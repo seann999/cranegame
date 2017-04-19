@@ -1,7 +1,7 @@
 # Crane Game (Claw Machine) Simulator
 A virtual environment to train AI agents.
 
-![alt text](images/image1.png)
+![](images/image1.png | width=100)
 
 ## Dependencies
 * Unity Game Engine
