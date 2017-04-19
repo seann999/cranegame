@@ -1,5 +1,4 @@
 # Crane Game (Claw Machine) Simulator
-A virtual environment to train AI agents.
 
 <img src="images/image1.png " width="400">
 
