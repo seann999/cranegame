@@ -48,7 +48,7 @@ In ``env.step()``, pass a command string:
 * ``move <x> <y> <z>`` move claw by (x, y, z)
 * ``moveTo <x> <y> <z>`` move claw a fixed distance towards (x, y, z)
 * ``toggleClaw`` toggle grab/release of claw
-* ``auto <x> <y> <z>`` automatically move claw to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence.
+* ``auto <x> <y> <z>`` automatically move claw to (x, y, z), move down, grab, raise, move over the opening, and release. This makes learning easier because it reduces the length of the required action sequence. (TODO: bug)
 * ``reset`` resets the environment: moves the claw back to the center and respawns all objects in new random locations
 
 ## Observations
