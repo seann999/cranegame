@@ -1,6 +1,7 @@
 *~
 *.pyc
 summaries/*
+*.DS_Store
 
 # Unity ignore
 */[Ll]ibrary/
