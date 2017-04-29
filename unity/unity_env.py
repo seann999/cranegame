@@ -51,7 +51,6 @@ class UnityEnv(gym.Env):
 
         image = []
         for i in range(1):
-            print(state.keys())
             image.append(Image.open(io.BytesIO(bytearray(state['image'][i]))))
         depth = []
         for i in range(self.depth_image_count):

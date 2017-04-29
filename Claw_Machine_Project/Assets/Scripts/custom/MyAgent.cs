@@ -27,7 +27,7 @@ namespace MLPlayer {
 	}
 
 	public class MyAgent : Agent {
-		public static string objectCode = "abc";
+		public static string objectCode = "aaaaa";
 
 		public MyAction mAction = null;
 		public ClawController claw;
@@ -58,12 +58,28 @@ namespace MLPlayer {
 
 		public override void StartEpisode ()
 		{
-			clawBody.transform.position = new Vector3 (0, 9, 0);
+			clawBody.transform.position = new Vector3 (0, 0, 0);
 			messageEnabled = true;
 
 			//Random.seed = 0;
 			foreach (Transform t in things) {
-				t.position = new Vector3 (Random.value * 10f - 5f, 0, Random.value * 8f - 4f);
+				bool valid = false;
+				int tries = 0;
+
+				while (!valid && tries < 20) {
+					t.position = new Vector3 (Random.value * 10f - 5f, -2, Random.value * 10f - 5f);
+					Collider[] checkResult = Physics.OverlapSphere(t.position, 2);
+
+					if (checkResult.Length <= 2) {
+						valid = true;
+					}
+
+					tries++;
+
+					//print (checkResult.Length);
+					//valid = true;
+				}
+
 				t.rotation = Random.rotation;
 				t.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			}

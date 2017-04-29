@@ -1,9 +1,9 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{1878C11D-BC72-3BE5-2DCD-DD393F6523F2}") = "Claw_Machine_Project", "Assembly-CSharp-firstpass.csproj", "{8BA9CC1B-7442-2B98-956E-6B3E226EE4B6}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claw_Machine_Project", "Assembly-CSharp-firstpass.csproj", "{8BA9CC1B-7442-2B98-956E-6B3E226EE4B6}"
 EndProject
-Project("{1878C11D-BC72-3BE5-2DCD-DD393F6523F2}") = "Claw_Machine_Project", "Assembly-CSharp.csproj", "{5E4885AF-F71A-63C0-1209-215A0D7DEC8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claw_Machine_Project", "Assembly-CSharp.csproj", "{5E4885AF-F71A-63C0-1209-215A0D7DEC8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

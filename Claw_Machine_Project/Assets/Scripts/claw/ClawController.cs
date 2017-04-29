@@ -55,7 +55,7 @@ public class ClawController : MonoBehaviour {
 					phase = 1;
 				}
 			} else if (phase == 1) {
-				if (Vector3.Distance (claw.transform.position, claw.target) > 0.01f) {
+				if (Vector3.Distance (claw.transform.position, claw.target) > 0.1f) {
 					//claw.command = "target";
 					claw.Move (claw.target.x, claw.transform.position.y, claw.target.z, 2, true);
 					countdown = 1;
@@ -141,7 +141,7 @@ public class ClawController : MonoBehaviour {
 				takeover = true;
 			} else if (act.command == "moveTo") {
 				claw.Move (float.Parse (act.tokens [1]), float.Parse (act.tokens [2]), float.Parse (act.tokens [3]), 2, true);
-			} else if (act.command == "reset") {
+			} else if (act.command == "reset" || Input.GetKeyDown (KeyCode.K)) {
 				takeover = false;
 				agent.EndEpisode();
 			} else if (Input.GetKey (KeyCode.Space) || act.command == "autograb") {
