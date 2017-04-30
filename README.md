@@ -3,7 +3,7 @@
 <img src="images/image1.png " width="400">
 
 ## Dependencies
-* Unity Game Engine
+* Unity Game Engine (developed in version 5.6)
 
 Python packages
 * OpenAI Gym (``pip install gym`` for minimum installation)

@@ -7,8 +7,6 @@ import numpy as np
 import json
 import signal
 
-# AA
-rand = True
 linux = False
 
 game_processes = []
