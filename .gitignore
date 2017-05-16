@@ -1,3 +1,11 @@
+# =============== #
+# Unity generated #
+# =============== #
+Claw_Machine_Project/Temp/
+Claw_Machine_Project/Obj/
+Claw_Machine_Project/UnityGenerated/
+Claw_Machine_Project/Library/
+
 *~
 *.pyc
 summaries/*
