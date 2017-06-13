@@ -1,1 +1,1 @@
-from gym.envs.unity.gym_unity_env import GymUnityEnv
+from gym.envs.unity.unity_env import UnityEnv
