@@ -1,6 +1,7 @@
 # Crane Game (Claw Machine) Simulator
+持ち上げられないサッカーボールを追加。
 
-<img src="images/image1.png " width="400">
+<!-- <img src="images/image1.png " width="400"> -->
 
 ## Dependencies
 * Unity Game Engine
@@ -71,6 +72,7 @@ In ``env.step()``, pass a command string:
 * f = ball 2; ボール（バスケ）
 * g = ball 3; ボール（サッカー）
 * h = Android mascot; アンドロイドマスコット
+* i = ball 3; 持ち上げられないボール（サッカー）
 
 ### Spawn code example
 ```
