@@ -10,23 +10,27 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>game_mac</string>
+	<string>game_mac1</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Unity Player version 5.6.0f3 (497a0f351392). (c) 2017 Unity Technologies ApS. All rights reserved.</string>
+	<string>Unity Player version 5.6.1f1 (2860b30f0b54). (c) 2017 Unity Technologies ApS. All rights reserved.</string>
 	<key>CFBundleIconFile</key>
 	<string>PlayerIcon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>unity.DefaultCompany.Claw Machine Proyect</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleSupportedPlatforms</key>
+		<array>
+			<string>MacOSX</string>
+		</array>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.games</string>
 	<key>CFBundleName</key>
 	<string>Claw Machine Proyect</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0</string>
 	<key>NSMainNibFile</key>
@@ -34,6 +38,6 @@
 	<key>NSPrincipalClass</key>
 	<string>PlayerApplication</string>
 	<key>UnityBuildNumber</key>
-	<string>497a0f351392</string>
+	<string>2860b30f0b54</string>
 </dict>
 </plist>

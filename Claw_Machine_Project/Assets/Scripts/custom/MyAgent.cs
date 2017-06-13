@@ -53,6 +53,11 @@ namespace MLPlayer {
 				things.Add((Transform) obj);
 			}
 
+//			Object obj1 = Instantiate (instances [6], new Vector3 (0, 0, 0), Quaternion.identity);
+//			things.Add((Transform) obj1);
+//			Object obj2 = Instantiate (instances [8], new Vector3 (0, 0, 0), Quaternion.identity);
+//			things.Add((Transform) obj2);
+
 			extraInfo = new ExtraInfo (things);
 		}
 
